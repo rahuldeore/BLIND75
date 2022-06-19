@@ -64,10 +64,12 @@ public class TwoSum {
                 if (!left && nums[i] == sortedNums[lIndex]) {
                     result[0] = i;
                     left=true;
+                    continue;
                 }
                 if (!right && nums[i] == sortedNums[rIndex]) {
                     result[1] = i;
                     right=true;
+                    continue;
                 }
             }
         }
