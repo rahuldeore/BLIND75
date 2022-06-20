@@ -81,20 +81,16 @@ public class TwoSum {
         int result[] = new int[2];
         int length = nums.length;
         var hashNums = new HashMap<Integer, Integer>();
-        int firstNum=0, secondNum=0;
-
-        for (int i=0; i<length; i++) {
-            hashNums.put(nums[i], i);
-        }
+        int secondNum=0;
 
         for(int i=0; i<length; i++) {
-            firstNum = nums[i];
-            secondNum = target - firstNum;
+            secondNum = target - nums[i];
             if (hashNums.containsKey(secondNum) && hashNums.get(secondNum) != i) {
                 result[0] = i;
                 result[1] = hashNums.get(secondNum);
                 break;
             }
+            hashNums.put(nums[i], i);
         }
         return result;
     }
@@ -104,21 +100,21 @@ public class TwoSum {
         int target=9;
         TwoSum twoSum = new TwoSum();
         int result_1[] = twoSum.twoSum_1(nums, target);
-        System.out.println(result_1[0] + " " + result_1[1]);
+        System.out.println("Expected: 0 1 | Actual: " + result_1[0] + " " + result_1[1]);
 
         int nums1[] = {3,3};
         int target1=6;
         int result[] = twoSum.twoSum(nums1, target1);
-        System.out.println(result[0] + " " + result[1]);
+        System.out.println("Expected: 0 1 | Actual: " + result[0] + " " + result[1]);
 
         int nums2[] = {2,5,5,11};
         int target2=10;
         int result2[] = twoSum.twoSum(nums2, target2);
-        System.out.println(result2[0] + " " + result2[1]);
+        System.out.println("Expected: 1 2 | Actual: " +result2[0] + " " + result2[1]);
 
         int nums3[] = {3,2,4};
         int target3=6;
         int result3[] = twoSum.twoSum(nums3, target3);
-        System.out.println(result3[0] + " " + result3[1]);
+        System.out.println("Expected: 1 2 | Actual: " +result3[0] + " " + result3[1]);
     }
 }
