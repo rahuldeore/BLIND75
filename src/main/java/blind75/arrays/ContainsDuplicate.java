@@ -1,11 +1,11 @@
 package blind75.arrays;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Set;
 
 /**
+ * Difficulty: Easy
+ *
  * Given an integer array nums, return true if any value appears at least twice in the array, and return false if every element is distinct.
  *
  * Example 1:
