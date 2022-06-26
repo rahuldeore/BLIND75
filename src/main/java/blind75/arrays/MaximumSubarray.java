@@ -35,4 +35,11 @@ public class MaximumSubarray {
 
         return maxSum;
     }
+
+    public static void main(String... args) {
+        MaximumSubarray maximumSubarray = new MaximumSubarray();
+
+        int[] nums = {-1,-2,-3,-4,-5};
+        System.out.println("Expected: -1 | Actual: " + maximumSubarray.maxSubArray(nums));
+    }
 }
