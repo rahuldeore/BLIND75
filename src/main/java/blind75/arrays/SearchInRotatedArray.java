@@ -34,7 +34,7 @@ import java.util.Arrays;
  * -104 <= target <= 104
  * */
 public class SearchInRotatedArray {
-    public int search(int[] nums, int target) {
+    public int search_linear(int[] nums, int target) {
         // Linear search. Need to find O(log n) solution.
         for (int i=0; i<nums.length; i++) {
             if (nums[i] == target) {
@@ -44,7 +44,7 @@ public class SearchInRotatedArray {
         return -1;
     }
 
-    public int search_2(int[] nums, int target) {
+    public int search(int[] nums, int target) {
         int result;
         int length = nums.length;
         if (length == 1) {
@@ -55,7 +55,7 @@ public class SearchInRotatedArray {
         }
         // Array is rotated length times, do direct binary search
         if (nums[0] < nums[length-1]) {
-            result = binarySearch(nums, target);
+            result = binarySearch(nums, target, 0, nums.length-1);
         } else {
             int start = 0, end = length - 1, mid = (int) Math.ceil((start + end) / 2.0);
             // Find the infliction point, then search in subarray
@@ -69,33 +69,31 @@ public class SearchInRotatedArray {
                 }
             }
 
-            int inflictionPoint = nums[mid] < nums[mid + 1] ? mid : mid + 1;
-            int[] subArrayNums;
+            int inflictionPoint = nums[mid-1] < nums[mid] ? mid-1 : mid;
+
             // where does target lies in the original nums ?
             if (target >= nums[inflictionPoint] && target <= nums[length - 1]) {
-                subArrayNums = Arrays.copyOfRange(nums, inflictionPoint, length - 1);
-                result = binarySearch(subArrayNums, target);
-                result = result == -1 ? result : result + inflictionPoint;
+                int to = inflictionPoint == length-1 ? length : length-1;
+                result = binarySearch(nums, target, inflictionPoint, to);
+                //result = result == -1 ? result : result + inflictionPoint;
             } else {
-                subArrayNums = Arrays.copyOfRange(nums, 0, inflictionPoint - 1);
-                result = binarySearch(subArrayNums, target);
+                result = binarySearch(nums, target, 0, inflictionPoint - 1);
             }
         }
         return result;
     }
-    public int binarySearch(int[] nums, int target) {
+    public int binarySearch(int[] nums, int target, int start, int end) {
         int result=-1;
-        int start=0, end=nums.length-1, mid;
+        int low=start, high=end, mid;
 
-        while (start < end) {
-            mid =(start + end) / 2;
-            if (nums[mid] == target) {
+        while (low <= high) {
+            mid = low + (high - low) / 2;
+            if (nums[mid] == target)
                 return mid;
-            } else if (target < nums[mid]) {
-                end = mid;
-            } else {
-                start = mid+1;
-            }
+            if (nums[mid] < target)
+                low = mid + 1;
+            else
+                high = mid - 1;
         }
         return result;
     }
@@ -107,16 +105,20 @@ public class SearchInRotatedArray {
         int[] nums3 = {4,5,6,7,0,1,2};
         int[] nums4 = {1}; // Target 0. failed at this test case. Resolved
         int[] nums5 = {1,3}; // Target 0. Failed at this test case. Resolved
-        int[] nums6 = {1,3}; // Target 2. Failed at this test case. TODO
+        int[] nums6 = {1,3}; // Target 2. Failed at this test case. Resolved with updated binary search.
+        int[] nums7 = {3,1};
         /*if (search.search(nums2, 1) == search.search_2(nums2, 1)) {
             System.out.println("Found");
         }*/
-        System.out.println(search.search_2(nums, 1)); // 6
-        System.out.println(search.search_2(nums2, 4)); // 3
-        System.out.println(search.search_2(nums3, 5)); // 1
-        System.out.println(search.search_2(nums4, 0)); // -1
-        System.out.println(search.search_2(nums5, 0)); // -1
-        System.out.println(search.search_2(nums6, 2)); // -1
-        System.out.println(search.search_2(nums6, 3)); // 1
+        System.out.println(search.search(nums, 1)); // 6
+        System.out.println(search.search(nums2, 4)); // 3
+        System.out.println(search.search(nums3, 5)); // 1
+        System.out.println(search.search(nums4, 0)); // -1
+        System.out.println(search.search(nums5, 0)); // -1
+        System.out.println(search.search(nums6, 2)); // -1
+        System.out.println(search.search(nums6, 3)); // 1
+        System.out.println(search.search(nums7, 0)); // -1
+        System.out.println(search.search(nums7, 1)); // 1
+        System.out.println(search.search(nums7, 3)); // 0
     }
 }
